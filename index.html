@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Sign-In</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: red;
+    }
+    .form-container {
+      background-color: #2a2a2a;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #333;
+      border: 1px solid white;
+      color: white;
+    }
+    .btn {
+      background-color: red;
+      border: none;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    .success-message {
+      color: red;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Sign-In</h1>
+  <div class="form-container">
+    <form id="signin-form">
+      <input type="text" id="name" placeholder="Student Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button class="btn" type="submit">Sign In</button>
+    </form>
+    <div class="success-message" id="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("signin-form");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      fetch("https://your-n8n-url.com/webhook/student-signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      })
+        .then(res => res.ok ? "Success" : "Failed")
+        .then(msg => {
+          document.getElementById("message").textContent = "Sign-in submitted successfully!";
+          form.reset();
+        })
+        .catch(err => {
+          document.getElementById("message").textContent = "There was an error. Please try again.";
+        });
+    });
+  </script>
+</body>
+</html>
